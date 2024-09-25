@@ -8,6 +8,8 @@ adfind.exe
 NMAP.EXE
 nmap.exe
 mimikatz.exe
+dropbox.exe
+rclone.exe
 1.bat
 2.bat
 3.bat
