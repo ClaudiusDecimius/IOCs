@@ -10,6 +10,7 @@ nmap.exe
 mimikatz.exe
 dropbox.exe
 rclone.exe
+freefilesync.exe
 1.bat
 2.bat
 3.bat
@@ -30,3 +31,13 @@ rclone.exe
 8.exe
 9.exe
 10.exe 
+OpenSSH.exe
+openssh.exe
+lingo.exe
+ngrok.exe
+nsocks.exe
+plink.exe
+proxifier.exe
+rsocks.exe
+socat.exe
+truesocks.exe
