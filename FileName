@@ -10,6 +10,9 @@ nmap.exe
 mimikatz.exe
 dropbox.exe
 rclone.exe
+rrustic.exe
+winupd.exe
+minilib.dll
 freefilesync.exe
 1.bat
 2.bat
