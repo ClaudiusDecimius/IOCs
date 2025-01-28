@@ -1,4 +1,15 @@
 #FILES14_11_2024
+check.exe
+SETUP.bat
+DEF.bat
+RDP.bat
+COPY.bat
+COPY1.bat
+WMI.bat
+WMI1.bat
+EXE.bat
+EXE1.bat
+Veeam-Get-Creds.ps1
 netscan.xml
 splashtopStream.exe
 syncro.exe
