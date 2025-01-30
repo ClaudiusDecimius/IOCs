@@ -11,6 +11,7 @@ COPY1.bat
 WMI.bat
 WMI1.bat
 EXE.bat
+exe.bat
 EXE1.bat
 Veeam-Get-Creds.ps1
 netscan.xml
@@ -24,7 +25,10 @@ SafeFilter.exe
 rustdesk.exe
 mobraxterm.exe
 radmin.exe
+Radmin.exe
+Rclone.exe
 masscan.exe
+Masscan.exe
 plink.exe
 movemouse.exe
 set.bat
