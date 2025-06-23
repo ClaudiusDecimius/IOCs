@@ -1,4 +1,7 @@
 #FILES29_11_2024
+worker.exe
+PAYLOAD.exe
+payload.exe
 TKRun.dll
 mimikatz.bin
 Dismantle.exe
