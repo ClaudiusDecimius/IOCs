@@ -158,8 +158,6 @@ ntfs-read.py
 ntlmrelayx.py
 ping.py
 ping6.py
-pip
-pip3
 pip3.11
 psexec.py
 raiseChild.py
